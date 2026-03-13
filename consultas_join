@@ -241,13 +241,10 @@ FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 
 
 
-
-
-
 select
 u.id as identificador,
 u.name as nombre,
-u.email,
+u.email, 
 p.adress as direccion,
 p.phone as telefono
 from users u
@@ -263,3 +260,30 @@ o.total,
 o.status as estado
 from clients c
 inner join orders o on c.id = o.client_id;
+
+/*LEF JOIN*/
+/*primero se hace un select para selecionar la tabla*/
+select * from users u;
+select * from profiles p;
+
+/*ahora si se crea la tabla, (va a mostrar NULL donde no hay un registro*/
+select 
+u.name AS Nombre,
+u.email AS correo,
+p.phone AS celular,
+p.adress AS direccion
+from users u
+left join profiles p on p.user_id = u_id
+
+/*el CASE crea una nueva columna para mas adorno, como mostrar quien tiene perfil y quien no*/
+select 
+u.name AS Nombre,
+u.email AS correo,
+p.phone AS celular,
+p.adress AS direccion
+from users u
+case when p.user_id is null then 'sin perfil'
+else 'con perfil' end as existeperfil 
+left join profiles p on p.user_id = u_id
+
+/*where p.user_id is null: para mostrar nada mas que es null*/
